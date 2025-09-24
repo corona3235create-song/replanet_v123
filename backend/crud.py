@@ -274,7 +274,7 @@ def update_personal_challenge_progress(db: Session, user_id: int):
         ).first()
         
         if member_entry:
-            member_entry.progress = progress
+
             db.add(member_entry)
             
             # Also check if the challenge is now completed
