@@ -93,10 +93,12 @@ def get_challenges(current_user: models.User = Depends(get_current_user), db: Se
             "id": c.challenge_id,
             "title": c.title,
             "description": c.description,
-            "progress": int(progress), # 프론트엔드 스키마에 맞게 int로 변환
+            "progress": float(progress), # 프론트엔드 스키마에 맞게 float로 변환
             "reward": c.reward,
             "is_joined": is_joined,
-            "status": c.status # status 필드 추가
+            "status": c.status, # status 필드 추가
+            "goal_type": c.goal_type, # FrontendChallenge 스키마에 추가
+            "goal_target_value": c.goal_target_value # FrontendChallenge 스키마에 추가
         })
 
     return result

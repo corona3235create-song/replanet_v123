@@ -104,7 +104,7 @@ npm start
 
 
 백엔드 서버 실행
-py -3.11 -m venv venv
+python -m venv venv
 .\venv\Scripts\activate
 cd backend
 pip install -r requirements.txt
