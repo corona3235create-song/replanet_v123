@@ -1,0 +1,104 @@
+.challenge-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.challenge-card.upcoming {
+  border-left: 5px solid #ffc107; /* Yellow for upcoming */
+}
+
+.challenge-card.active {
+  border-left: 5px solid #28a745; /* Green for active */
+}
+
+.challenge-card.completed {
+  border-left: 5px solid #6c757d; /* Gray for completed */
+}
+
+.challenge-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333333;
+  font-size: 1.5rem;
+}
+
+.challenge-card .challenge-description {
+  color: #666666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.challenge-card .challenge-meta span {
+  display: block;
+  font-size: 0.85rem;
+  color: #888888;
+  margin-bottom: 5px;
+}
+
+.challenge-card .challenge-progress {
+  margin-top: 15px;
+}
+
+.challenge-card .progress-bar-container {
+  width: 100%;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 10px;
+}
+
+.challenge-card .progress-bar {
+  height: 100%;
+  background-color: #007bff;
+  border-radius: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+.challenge-card .progress-text {
+  display: block;
+  text-align: right;
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.challenge-card .challenge-status {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+}
+
+.challenge-card .btn.join-challenge-btn {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.challenge-card .participating-text {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  text-align: center;
+  font-size: 1rem;
+  color: #28a745;
+  font-weight: bold;
+  border: 1px solid #28a745;
+  border-radius: 4px;
+  background-color: #e6ffe6;
+}

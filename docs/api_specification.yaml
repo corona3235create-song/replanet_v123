@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  title: "Eco AI Chatbot API"
+  description: "서울시 에코 AI 챗봇의 탄소 절감 프로젝트를 위한 API 명세서"
+  version: "1.0.0"
+
+servers:
+    description: "Production Server"
+
+paths:
+  /users/register:
+    post:
+      summary: "사용자 회원가입"
+      tags: [User]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "eco_user"
+                email:
+                  type: string
+                  format: email
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+      responses:
+        "201":
+          description: "회원가입 성공"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                    example: "user_12345"
+                  message:
+                    type: string
+                    example: "회원가입이 완료되었습니다."
+
+  /users/login:
+    post:
+      summary: "사용자 로그인"
+      tags: [User]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        "200":
+          description: "로그인 성공"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: "jwt_token_string"
+
+  /users/{userId}/profile:
+    get:
+      summary: "사용자 프로필 조회"
+      tags: [User]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "프로필 조회 성공"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+
+  /carbon/calculate:
+    post:
+      summary: "탄소 배출량 계산"
+      tags: [Carbon]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activityType:
+                  type: string
+                  enum: [transportation, energy, waste]
+                  example: "transportation"
+                details:
+                  type: object
+                  properties:
+                    vehicleType:
+                      type: string
+                      example: "bus"
+                    distance:
+                      type: number
+                      example: 10.5 # km 단위
+      responses:
+        "200":
+          description: "계산 성공"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  emission:
+                    type: number
+                    example: 2.5 # kg CO2eq
+
+  /carbon/activities:
+    post:
+      summary: "사용자 활동 기록"
+      tags: [Carbon]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Activity"
+      responses:
+        "201":
+          description: "활동 기록 성공"
+
+  /challenges:
+    get:
+      summary: "진행중인 챌린지 목록 조회"
+      tags: [Challenge]
+      responses:
+        "200":
+          description: "챌린지 목록"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Challenge"
+
+  /ranking:
+    get:
+      summary: "탄소 절감 랭킹 조회"
+      tags: [Ranking]
+      responses:
+        "200":
+          description: "사용자 랭킹"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserRank"
+
+  /chatbot/query:
+    post:
+      summary: "챗봇에게 질문"
+      tags: [Chatbot]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                query:
+                  type: string
+                  example: "오늘 버스 10km 탔는데 탄소 배출량 알려줘"
+      responses:
+        "200":
+          description: "챗봇 답변"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: "버스 10km 이용 시 약 2.5kg의 탄소가 배출됩니다. 다음엔 자전거를 이용해보는 건 어떠세요?"
+
+components:
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        totalReduction:
+          type: number
+          example: 120.5 # kg CO2eq
+        points:
+          type: integer
+          example: 1500
+
+    Activity:
+      type: object
+      properties:
+        userId:
+          type: string
+        activityType:
+          type: string
+        emission:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+
+    Challenge:
+      type: object
+      properties:
+        challengeId:
+          type: string
+        title:
+          type: string
+          example: "일주일 대중교통 이용하기"
+        description:
+          type: string
+        rewardPoints:
+          type: integer
+          example: 500
+
+    UserRank:
+      type: object
+      properties:
+        rank:
+          type: integer
+        username:
+          type: string
+        totalReduction:
+          type: number

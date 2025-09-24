@@ -1,0 +1,127 @@
+.carbon-footprint-container {
+  padding: 2rem;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px); /* Adjust based on header/footer height */
+}
+
+.carbon-footprint-container h2 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.carbon-footprint-container h3 {
+  font-size: 1.8rem;
+  color: #34495e;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #1abc9c;
+  padding-bottom: 0.5rem;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-cards .card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  padding: 1.8rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(26, 188, 156, 0.1);
+  border: 1px solid rgba(26, 188, 156, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(26, 188, 156, 0.2);
+}
+
+.summary-cards .card h4 {
+  font-size: 1.2rem;
+  color: #4b5563;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.summary-cards .card .metric {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1abc9c;
+  margin: 0;
+}
+
+.chart-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(26, 188, 156, 0.1);
+  border: 1px solid rgba(26, 188, 156, 0.1);
+  margin-bottom: 2rem;
+}
+
+.chart-section h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  font-size: 1.6rem;
+}
+
+.loading-text, .error-text, .no-data-text {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-top: 2rem;
+}
+
+.error-text {
+  color: #e74c3c;
+}
+
+/* Recharts specific styles */
+.recharts-default-tooltip {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #1abc9c !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+  font-size: 0.9rem !important;
+  color: #333 !important;
+}
+
+.recharts-tooltip-label {
+  color: #1abc9c !important;
+  font-weight: bold !important;
+}
+
+.recharts-legend-item-text {
+  color: #4b5563 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carbon-footprint-container {
+    padding: 1rem;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-cards .card {
+    padding: 1.5rem;
+  }
+
+  .summary-cards .card .metric {
+    font-size: 2rem;
+  }
+
+  .chart-section {
+    padding: 1.5rem;
+  }
+}

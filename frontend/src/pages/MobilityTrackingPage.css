@@ -1,0 +1,113 @@
+.mobility-tracking-page {
+  background: linear-gradient(to bottom, #f0fdf4 0%, #e0ffe0 50%, #d0f0d0 100%); /* Light green gradient */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.1); /* Subtle green shadow */
+  margin: 20px auto;
+  max-width: 800px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50; /* Dark grey for text */
+  position: relative; /* Needed for pseudo-elements or absolute positioning */
+  overflow: hidden; /* Hide overflow from background elements */
+}
+
+/* Adding a subtle tree-like or foliage pattern at the bottom */
+.mobility-tracking-page::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Adjust height as needed */
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23a8e6cf" d="M0,100 L0,60 C20,80 40,40 60,60 C80,80 100,40 100,60 L100,100 Z" /></svg>') repeat-x bottom;
+  background-size: 100px 100px; /* Adjust size of the repeating pattern */
+  opacity: 0.6; /* Make it subtle */
+  z-index: -1; /* Place behind content */
+}
+
+.mobility-tracking-page h2 {
+  color: #27ae60; /* A vibrant green for headings */
+  margin-bottom: 25px;
+  font-size: 2.2em;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Styles for the MobilityTracker component itself */
+.mobility-tracker-container {
+  background-color: #ffffff; /* White background for the tracker card */
+  border: 1px solid #d1e7dd; /* Light green border */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.08);
+}
+
+.mobility-tracker-container h3 {
+  color: #28a745; /* Another shade of green */
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.mobility-tracker-container p {
+  color: #34495e;
+  font-size: 1.1em;
+}
+
+.mobility-tracker-container button {
+  transition: all 0.3s ease;
+  border-radius: 25px;
+  font-weight: 600;
+  padding: 12px 25px;
+  margin: 5px;
+}
+
+.mobility-tracker-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.2);
+}
+
+.mobility-tracker-container button[disabled] {
+  background-color: #cccccc !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Specific button colors */
+.mobility-tracker-container button.mode-selected {
+  background-color: #1abc9c !important;
+  color: white !important;
+}
+
+.mobility-tracker-container button.mode-unselected {
+  background-color: #e9ecef !important;
+  color: black !important;
+}
+
+.mobility-tracker-container button.start-tracking {
+  background-color: #28a745 !important; /* Green */
+  color: white !important;
+}
+
+.mobility-tracker-container button.stop-tracking {
+  background-color: #dc3545 !important; /* Red for stop */
+  color: white !important;
+}
+
+.mobility-tracker-container .tracking-info {
+  background-color: #e6ffe6; /* Very light green for tracking info */
+  border: 1px solid #a3e9a4;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.mobility-tracker-container .tracking-info strong {
+  color: #1e8449;
+}
+
+.mobility-tracker-container .tracking-info p:last-child {
+  font-size: 1.8em;
+  color: #1abc9c;
+}

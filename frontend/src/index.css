@@ -1,0 +1,83 @@
+/* Import a modern font, Pretendard, which is similar to the design */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+:root {
+  --primary-green: #1abc9c; /* A vibrant green similar to the PDF */
+  --dark-text: #34495e;
+  --light-text: #ffffff;
+  --background-light: #ffffff;
+  --background-dark: #2c3e50;
+  --grey-accent: #ecf0f1;
+  --border-radius: 15px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-light);
+  color: var(--dark-text);
+  font-size: 18px; /* 40-50대 가독성을 위해 폰트 크기 증가 */
+  line-height: 1.8; /* 줄 간격 증가로 가독성 향상 */
+  font-weight: 400; /* 폰트 굵기 명시 */
+}
+
+/* Hero Section */
+.hero-section {
+  padding-top: 100px; /* Header offset */
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color: var(--light-text);
+
+  /* ✅ 배경 흐림/오버레이 */
+  background: rgba(26, 188, 156, 0.75); /* primary-green 반투명 */
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/leaves.png');
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.3; /* ✅ 패턴은 흐리게 */
+  z-index: -1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

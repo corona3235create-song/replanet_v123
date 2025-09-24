@@ -1,0 +1,433 @@
+/* ==============================
+   미리보기 컴포넌트 공통 스타일
+   ============================== */
+.chat-preview,
+.credit-preview,
+.garden-preview {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.preview-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* ==============================
+   AI 챗봇 미리보기
+   ============================== */
+.status-indicator {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-indicator.online {
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+}
+
+.preview-messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.message.user-message {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: #f8f9fa;
+  flex-shrink: 0;
+}
+
+.message-content {
+  background: #f8f9fa;
+  padding: 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  max-width: 80%;
+}
+
+.bot-message .message-content {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+}
+
+.user-message .message-content {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.preview-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.message-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  color: #2c3e50;
+}
+
+.message-input::placeholder {
+  color: #999;
+}
+
+.send-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.send-btn:hover {
+  background: linear-gradient(135deg, #16a085, #138d75);
+}
+
+.send-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ==============================
+   크레딧 현황 미리보기
+   ============================== */
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8fff8, #e8f5e8);
+  border-radius: 10px;
+  border: 1px solid rgba(26, 188, 156, 0.1);
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(26, 188, 156, 0.3);
+}
+
+.user-details h5 {
+  margin: 0 0 0.2rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.user-details p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.credit-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1abc9c;
+}
+
+.recent-activities h6 {
+  margin: 0 0 0.8rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.activity-text {
+  flex: 1;
+  font-size: 0.8rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.activity-time {
+  font-size: 0.7rem;
+  color: #999;
+}
+
+/* ==============================
+   나만의 정원 미리보기
+   ============================== */
+.level-badge {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.garden-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8fff8, #e8f5e8);
+  border-radius: 10px;
+}
+
+.plant-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plant-image {
+  font-size: 4rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.plant-stage {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1abc9c;
+  background: rgba(26, 188, 156, 0.1);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.garden-stats {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.chip-icon {
+  font-size: 0.9rem;
+}
+
+.chip-text {
+  color: #2c3e50;
+}
+
+.garden-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.water-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1abc9c, #16a085);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: #1abc9c;
+  font-weight: 600;
+  text-align: center;
+}
+
+.water-btn {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.water-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 188, 156, 0.3);
+}
+
+.garden-info {
+  text-align: center;
+}
+
+.carbon-info {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #1abc9c;
+  font-weight: 600;
+  background: rgba(26, 188, 156, 0.1);
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .chat-preview,
+  .credit-preview,
+  .garden-preview {
+    padding: 1rem;
+  }
+  
+  .preview-messages {
+    max-height: 150px;
+  }
+  
+  .message-content {
+    font-size: 0.8rem;
+    padding: 0.6rem;
+  }
+  
+  .plant-image {
+    font-size: 3rem;
+  }
+  
+  .garden-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

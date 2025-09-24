@@ -1,0 +1,222 @@
+.dashboard-container {
+  background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); /* 차분한 그라데이션 배경 */
+  min-height: 100vh;
+  padding: 60px 30px;
+  font-family: "Pretendard", sans-serif;
+}
+
+/* 클릭 가능한 카드 스타일 */
+.clickable-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.clickable-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(26, 188, 156, 0.2);
+  border-color: var(--primary-green);
+}
+
+.clickable-card:hover h4 {
+  color: var(--primary-green);
+}
+
+.clickable-card:hover .metric {
+  color: var(--primary-green);
+  font-weight: 700;
+}
+
+/* ===== 헤더 ===== */
+.dashboard-container h2 {
+  text-align: center;
+  font-size: 2.8rem; /* 22-24px 이상 권장사항 적용 */
+  font-weight: 700;
+  color: #1abc9c; /* 민트 그린 */
+  margin-bottom: 3rem;
+}
+
+/* ===== 요약 카드 ===== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  padding: 30px 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(107, 114, 128, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(107, 114, 128, 0.2);
+}
+
+.card h4 {
+  font-size: 1.4rem; /* 18px 전후로 증가 */
+  margin-bottom: 15px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.card .metric {
+  font-size: 2.2rem; /* 더 큰 메트릭 표시 */
+  font-weight: 700;
+  color: #4b5563; /* 차분한 진한 회색 */
+}
+
+.card .metric span {
+  font-size: 1.2rem; /* 단위 표시도 크게 */
+  color: #9ca3af;
+  margin-left: 6px;
+}
+
+/* ===== 차트 공통 ===== */
+.recharts-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  padding: 20px;
+}
+
+/* ===== AI 피드백 ===== */
+.ai-feedback {
+  margin-top: 2rem;
+  font-size: 1.3rem; /* 18px 전후로 증가 */
+  background: #ffffff;
+  border-left: 6px solid #1abc9c;
+  padding: 1rem 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #2c3e50;
+  line-height: 1.6; /* 줄 간격도 증가 */
+}
+
+/* ===== 챌린지 진행 상황 ===== */
+.challenge-section {
+  margin-top: 2rem;
+}
+
+.challenge-section h4 {
+  font-size: 1.4rem; /* 18px 전후로 증가 */
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.challenge-progress {
+  background: #ecf0f1;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 0.5rem;
+}
+
+.challenge-progress-bar {
+  background: #1abc9c;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ===== 활동 기록 버튼 ===== */
+.activity-logger {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+.activity-logger h4 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem; /* 18px 전후로 증가 */
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.activity-logger button {
+  background: #1abc9c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px; /* 패딩 증가 */
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 1.1rem; /* 18px 전후로 증가 */
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.activity-logger button:hover {
+  background: #16a085;
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   모바일 반응형 디자인
+   ============================== */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 40px 20px;
+  }
+  
+  .dashboard-container h2 {
+    font-size: 2.4rem; /* 모바일에서도 22-24px 이상 유지 */
+  }
+  
+  .card h4 {
+    font-size: 1.3rem; /* 모바일에서도 18px 전후 유지 */
+  }
+  
+  .card .metric {
+    font-size: 2rem; /* 모바일에서도 큰 메트릭 표시 */
+  }
+  
+  .card .metric span {
+    font-size: 1.1rem; /* 모바일에서도 단위 표시 크게 */
+  }
+  
+  .ai-feedback {
+    font-size: 1.2rem; /* 모바일에서도 18px 전후 유지 */
+  }
+  
+  .challenge-section h4 {
+    font-size: 1.3rem; /* 모바일에서도 18px 전후 유지 */
+  }
+  
+  .activity-logger h4 {
+    font-size: 1.3rem; /* 모바일에서도 18px 전후 유지 */
+  }
+  
+  .activity-logger button {
+    font-size: 1rem; /* 모바일에서도 16px 이상 유지 */
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container h2 {
+    font-size: 2rem; /* 작은 화면에서도 20px 이상 유지 */
+  }
+  
+  .card h4 {
+    font-size: 1.2rem; /* 작은 화면에서도 16px 이상 유지 */
+  }
+  
+  .card .metric {
+    font-size: 1.8rem; /* 작은 화면에서도 큰 메트릭 표시 */
+  }
+  
+  .ai-feedback {
+    font-size: 1.1rem; /* 작은 화면에서도 16px 이상 유지 */
+  }
+}

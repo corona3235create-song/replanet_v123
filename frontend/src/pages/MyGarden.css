@@ -1,0 +1,388 @@
+/* ==============================
+   정원 컨테이너 (통일된 스타일)
+   ============================== */
+.garden-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+  padding: 0;
+  color: #2c3e50;
+  position: relative;
+  overflow: hidden;
+}
+
+.garden-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ==============================
+   정원 메인 제목
+   ============================== */
+.garden-main-title {
+  font-size: 2.8rem; /* 폰트 크기 증가 */
+  font-weight: 800;
+  color: #1abc9c; /* 색상 통일 */
+  margin: 0 0 2rem 0; /* 마진 증가 */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ==============================
+   진행상황 바
+   ============================== */
+.progress-container {
+  margin-top: 1.5rem;
+  padding: 0 1rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a7f3d0, #86efac, #6ee7b7);
+  border-radius: 6px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.progress-text {
+  text-align: center;
+  margin-top: 0.8rem;
+  font-size: 1.1rem; /* 폰트 크기 증가 */
+  font-weight: 600;
+  color: #6ee7b7;
+  text-shadow: 0 1px 2px rgba(110, 231, 183, 0.3);
+}
+
+.garden-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1abc9c, #16a085, #1abc9c);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ==============================
+   칩 스타일
+   ============================== */
+.garden-chips {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0 20px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-size: 1.3rem; /* 폰트 크기 증가 */
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.chip-credits { 
+  background: linear-gradient(135deg, #d1fae5, #bbf7d0);
+  color: #2e7d32;
+}
+.chip-stage { 
+  background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
+  color: #0f766e;
+}
+.chip-level { 
+  background: linear-gradient(135deg, #a7f3d0, #86efac);
+  color: #7c3aed;
+}
+/* 🌟 장식 칩 */
+.chip-decorate {
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  color: #92400e;
+}
+
+/* ==============================
+   성장 이미지 + 애니메이션
+   ============================== */
+.garden-stage {
+  position: relative;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0b3d2c 0%, #1a5f3f 100%);
+  border: 2px solid rgba(26, 188, 156, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.garden-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top, rgba(255,255,255,0.10), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+.plant {
+  max-height: 280px;
+  width: auto;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.3));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+  z-index: 2;
+  position: relative;
+}
+
+.plant.animate {
+  transform: scale(1.06);
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.2));
+}
+
+/* ==============================
+   물주기 버튼
+   ============================== */
+.water-btn {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 8px 25px rgba(26, 188, 156, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.water-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.water-btn:hover::before {
+  left: 100%;
+}
+
+.water-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(26, 188, 156, 0.4);
+}
+
+.water-btn:active {
+  transform: translateY(-1px);
+}
+
+/* ==============================
+   텍스트
+   ============================== */
+.level-text {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #2d5016;
+}
+
+.garden-stats,
+.garden-message {
+  color: #2c3e50;
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.8rem 1.2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(26, 188, 156, 0.2);
+}
+
+/* ==============================
+   날씨 효과
+   ============================== */
+.weather-sunny {
+  background: linear-gradient(to bottom, #87ceeb, #e0f6ff);
+}
+.weather-rainy {
+  background: linear-gradient(to bottom, #f5f5f0, #e8e8e0);
+}
+
+/* ==============================
+   프로그레스바
+   ============================== */
+.progress-bar {
+  width: 100%;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(26, 188, 156, 0.2);
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #1abc9c, #16a085);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+  box-shadow: 0 2px 8px rgba(26, 188, 156, 0.3);
+}
+
+/* 🌟 에코크레딧 진행도 바 */
+.eco-progress .progress {
+  background: linear-gradient(90deg, #facc15, #f59e0b);
+}
+
+/* ==============================
+   미리보기 모드 스타일
+   ============================== */
+.garden-preview-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.preview-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1ABC9C;
+  font-weight: 600;
+}
+
+.preview-stats {
+  display: flex;
+  gap: 8px;
+}
+
+.stat-item {
+  background: #f0f9ff;
+  color: #0369a1;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid #bae6fd;
+}
+
+.preview-garden {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-radius: 8px;
+  margin: 10px 0;
+  min-height: 120px;
+  border: 1px solid #bbf7d0;
+}
+
+.preview-plant {
+  max-height: 100px;
+  width: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.preview-info {
+  margin-top: 10px;
+}
+
+.preview-stage {
+  font-size: 0.9rem;
+  color: #059669;
+  font-weight: 600;
+  margin: 5px 0;
+  background: #ecfdf5;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #a7f3d0;
+}
+
+.preview-carbon {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 5px 0 0 0;
+  background: #f9fafb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* 반응형 조정 */
+@media (max-width: 480px) {
+  .garden-stage { height: 280px; }
+  .plant { max-height: 220px; }
+  
+  .garden-preview-card {
+    padding: 15px;
+  }
+  
+  .preview-header h3 {
+    font-size: 1rem;
+  }
+  
+  .preview-plant {
+    max-height: 80px;
+  }
+}

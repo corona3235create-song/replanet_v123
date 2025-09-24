@@ -1,0 +1,61 @@
+.ranking-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ranking-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.ranking-table th,
+.ranking-table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.ranking-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  color: #555;
+}
+
+.ranking-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.ranking-table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+.ranking-table td {
+  color: #666;
+}
+
+.ranking-container .error-message {
+  color: #d9534f;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.ranking-container p {
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+}

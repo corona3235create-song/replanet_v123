@@ -1,0 +1,262 @@
+/* ==============================
+   How To 페이지 스타일
+   ============================== */
+.howto-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.howto-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+/* 네비게이션 */
+.howto-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-step {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+}
+
+.nav-step:hover {
+  border-color: #1abc9c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(26, 188, 156, 0.1);
+}
+
+.nav-step.active {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  border-color: #1abc9c;
+  box-shadow: 0 6px 20px rgba(26, 188, 156, 0.3);
+}
+
+.nav-step-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.nav-step-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* 콘텐츠 */
+.howto-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.step-icon {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 25px rgba(26, 188, 156, 0.3);
+}
+
+.step-info {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 0.5rem 0;
+}
+
+.step-description {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.step-details h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 1.5rem 0;
+}
+
+.details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #1abc9c;
+}
+
+.detail-number {
+  background: #1abc9c;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.detail-text {
+  font-size: 1rem;
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #f8f9fa;
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #16a085, #138d75);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 188, 156, 0.3);
+}
+
+.nav-btn:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.step-counter {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1abc9c;
+  background: rgba(26, 188, 156, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .howto-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+  
+  .howto-navigation {
+    order: 2;
+  }
+  
+  .howto-content {
+    order: 1;
+    padding: 1.5rem;
+  }
+  
+  .step-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .step-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .step-title {
+    font-size: 1.5rem;
+  }
+  
+  .step-description {
+    font-size: 1rem;
+  }
+  
+  .nav-step {
+    padding: 0.8rem;
+  }
+  
+  .nav-step-title {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .howto-container {
+    padding: 0.5rem;
+  }
+  
+  .howto-content {
+    padding: 1rem;
+  }
+  
+  .step-navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-btn {
+    width: 100%;
+  }
+}

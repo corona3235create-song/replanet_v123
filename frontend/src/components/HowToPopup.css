@@ -1,0 +1,327 @@
+/* ==============================
+   How To Use 팝업 스타일
+   ============================== */
+.howto-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+}
+
+.howto-popup {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.popup-header {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  color: white;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.popup-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.popup-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.popup-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background: #1abc9c;
+  transform: scale(1.2);
+}
+
+.step-dot.completed {
+  background: #16a085;
+}
+
+.step-content {
+  margin-bottom: 24px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.step-icon {
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 15px rgba(26, 188, 156, 0.3);
+}
+
+.step-info {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.step-description {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.step-details {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #1abc9c;
+}
+
+.details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.detail-number {
+  background: #1abc9c;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.detail-text {
+  font-size: 0.95rem;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+.popup-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.nav-btn {
+  background: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #16a085;
+  transform: translateY(-1px);
+}
+
+.nav-btn:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.step-counter {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1abc9c;
+  background: rgba(26, 188, 156, 0.1);
+  padding: 6px 12px;
+  border-radius: 16px;
+}
+
+.popup-footer {
+  background: #f8f9fa;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e9ecef;
+}
+
+.dont-show-today {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.dont-show-today input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #1abc9c;
+}
+
+.checkbox-text {
+  user-select: none;
+}
+
+.close-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #5a6268;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .howto-popup {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .popup-header {
+    padding: 16px 20px;
+  }
+  
+  .popup-title {
+    font-size: 1.3rem;
+  }
+  
+  .popup-content {
+    padding: 20px;
+  }
+  
+  .step-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .step-icon {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .step-title {
+    font-size: 1.2rem;
+  }
+  
+  .popup-navigation {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .nav-btn {
+    width: 100%;
+  }
+  
+  .popup-footer {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .close-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,28 @@
+# 공공데이터 포털 API 키들
+# https://data.go.kr 에서 발급받은 API 키를 입력하세요
+
+# 대기질 정보 API 키
+AIR_QUALITY_API_KEY=your_air_quality_api_key_here
+
+# 교통 정보 API 키  
+TRANSPORT_API_KEY=your_transport_api_key_here
+
+# 에너지 정보 API 키
+ENERGY_API_KEY=your_energy_api_key_here
+
+# 날씨 정보 API 키
+WEATHER_API_KEY=your_weather_api_key_here
+
+# 데이터베이스 설정
+DATABASE_URL=mysql://username:password@localhost:3306/ecoooo_db
+
+# AWS Bedrock 설정 (기존)
+AWS_DEFAULT_REGION=us-east-1
+BEDROCK_MODEL_ARN=arn:aws:bedrock:us-east-1:327784329358:inference-profile/us.anthropic.claude-opus-4-20250514-v1:0
+BEDROCK_KNOWLEDGE_BASE_ID=your_knowledge_base_id
+
+# Google Search API (기존)
+GOOGLE_API_KEY=your_google_api_key
+GOOGLE_CSE_ID=your_google_cse_id
+
+
