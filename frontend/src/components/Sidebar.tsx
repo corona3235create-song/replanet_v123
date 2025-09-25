@@ -17,7 +17,9 @@ const Sidebar: React.FC = () => {
       category: "서비스",
       items: [
         { path: "/chat", label: "AI 챗봇", icon: "🤖" },
-        { path: "/mygarden", label: "나만의 정원", icon: "🌿" },
+        { path: "/mygarden", label: "정원 레벨", icon: "🌿" },
+        { path: "/garden-editor", label: "나만의 정원", icon: "🌳" },
+        { path: "/shop", label: "상점", icon: "🛒" },
         { path: "/challenge-achievements", label: "챌린지 & 업적", icon: "🏆" },
         { path: "/dashboard", label: "대시보드", icon: "📊" },
         { path: "/credit", label: "Credit", icon: "💰" },

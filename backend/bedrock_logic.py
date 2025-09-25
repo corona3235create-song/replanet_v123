@@ -1,9 +1,12 @@
 import boto3
 import json
 import os
+from datetime import datetime
 import requests
 import re
 from bs4 import BeautifulSoup
+from backend import models
+
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from backend.routes.ai_challenge_router import AICallengeCreateRequest, create_and_join_ai_challenge
@@ -13,12 +16,14 @@ from backend.dependencies import get_current_user
 from sqlalchemy.orm import Session
 from backend import crud # crud 모듈 임포트
 from backend.models import User, TransportMode, Challenge, ChallengeMember # User 모델 임포트
+from backend import schemas
 
 # --- 설정 ---
 AWS_DEFAULT_REGION = "us-east-1"
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyBgs37kJYWB7zsTfIrDTqe1hpOxBhNkH44") # 환경 변수에서 가져오도록 변경
 GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID", "01354cc88406341ec") # 환경 변수에서 가져오도록 변경
-BEDROCK_MODEL_ARN = os.getenv("BEDROCK_MODEL_ARN", "arn:aws:bedrock:us-east-1:327784329358:inference-profile/us.anthropic.claude-opus-4-20250514-v1:0")
+BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "anthropic.claude-3-haiku-20240307-v1:0")
+BEDROCK_MODEL_ARN = os.getenv("BEDROCK_MODEL_ARN", f"arn:aws:bedrock:{AWS_DEFAULT_REGION}::foundation-model/{BEDROCK_MODEL_ID}")
 BEDROCK_KNOWLEDGE_BASE_ID = os.getenv("BEDROCK_KNOWLEDGE_BASE_ID", "PUGB1AL6L1")
 
 # --- Boto3 클라이언트 초기화 ---
@@ -55,7 +60,7 @@ def invoke_llm(system_prompt, user_prompt):
             "messages": messages
         }
         response = bedrock_runtime_client.invoke_model(
-            modelId=BEDROCK_MODEL_ARN,
+            modelId=BEDROCK_MODEL_ID,
             body=json.dumps(request_body)
         )
         response_body = json.loads(response.get('body').read())
@@ -128,13 +133,18 @@ def perform_web_search(query):
 
         full_context = ""
         urls = [item.get('link') for item in items]
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/555.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/555.36'} # User-Agent 수정
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', # Updated User-Agent
+            'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', # Add Accept-Language
+            'Referer': 'https://www.google.com/', # Add Referer
+            'Connection': 'close' # Add Connection header
+        }
 
         print("[알림] 검색된 웹페이지의 본문을 중요도 순으로 추출합니다...")
         for url in urls:
             if not url: continue
             try:
-                page_response = requests.get(url, headers=headers, timeout=5)
+                page_response = requests.get(url, headers=headers, timeout=10)
                 page_response.raise_for_status()
                 soup = BeautifulSoup(page_response.text, 'lxml')
                 text_parts = []

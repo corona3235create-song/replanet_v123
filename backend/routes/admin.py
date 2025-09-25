@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from .. import database, schemas, models
+from .. import database, schemas, models, crud
 from backend.services.mobility_service import MobilityService # NEW IMPORT
 
 router = APIRouter(

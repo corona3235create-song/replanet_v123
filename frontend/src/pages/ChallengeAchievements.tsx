@@ -597,119 +597,8 @@ const ChallengeAchievements: React.FC = () => {
     };
   };
 
-  // 더미 데이터
-  const dummyChallenges: ChallengeData[] = [
-    {
-      id: 1,
-      title: "9월 대중교통 챌린지",
-      description: "이번 달 대중교통으로 10kg CO₂ 절감하기",
-      progress: 65,
-      reward: "에코 크레딧 200C + 뱃지",
-      isParticipating: false,
-      isCompleted: false,
-      startDate: "2025-01-01",
-      endDate: "2025-01-31"
-    },
-    {
-      id: 2,
-      title: "자전거 출퇴근 챌린지",
-      description: "한 달간 자전거로 출퇴근하여 5kg CO₂ 절감",
-      progress: 40,
-      reward: "에코 크레딧 150C + 뱃지",
-      isParticipating: true,
-      isCompleted: false,
-      startDate: "2025-01-15",
-      endDate: "2025-02-15"
-    },
-    {
-      id: 3,
-      title: "도보 생활 챌린지",
-      description: "일주일간 1km 이내는 도보로 이동하기",
-      progress: 80,
-      reward: "에코 크레딧 100C",
-      isParticipating: true,
-      isCompleted: false,
-      startDate: "2025-01-20",
-      endDate: "2025-01-27"
-    },
-    {
-      id: 4,
-      title: "친환경 이동 30일",
-      description: "30일 연속 친환경 교통수단 이용하기",
-      progress: 25,
-      reward: "에코 크레딧 300C + 특별 뱃지",
-      isParticipating: false,
-      isCompleted: false,
-      startDate: "2025-02-01",
-      endDate: "2025-03-02"
-    }
-  ];
-
-  const dummyAchievements: AchievementData[] = [
-    {
-      id: 1,
-      name: "첫 친환경 이동",
-      desc: "첫 번째 친환경 교통수단 이용",
-      progress: 100,
-      unlocked: true,
-      date: "2025-01-10"
-    },
-    {
-      id: 2,
-      name: "탄소 절약 마스터",
-      desc: "총 10kg CO₂ 절약 달성",
-      progress: 100,
-      unlocked: true,
-      date: "2025-01-12"
-    },
-    {
-      id: 3,
-      name: "지하철 애호가",
-      desc: "지하철 20회 이용",
-      progress: 80,
-      unlocked: false
-    },
-    {
-      id: 4,
-      name: "자전거 라이더",
-      desc: "자전거 50km 주행",
-      progress: 60,
-      unlocked: false
-    },
-    {
-      id: 5,
-      name: "도보의 달인",
-      desc: "도보 100km 이동",
-      progress: 30,
-      unlocked: false
-    },
-    {
-      id: 6,
-      name: "연속 출석왕",
-      desc: "30일 연속 친환경 이동",
-      progress: 25,
-      unlocked: false
-    },
-    {
-      id: 7,
-      name: "에코 크레딧 수집가",
-      desc: "1000P 이상 적립",
-      progress: 100,
-      unlocked: true,
-      date: "2025-01-14"
-    },
-    {
-      id: 8,
-      name: "환경 보호자",
-      desc: "총 50kg CO₂ 절약 달성",
-      progress: 37,
-      unlocked: false
-    }
-  ];
-
   // 챌린지 참여하기 함수
   const handleJoinChallenge = async (challengeId: number) => {
-    // 백엔드 API 호출
     const token = localStorage.getItem('access_token');
     if (!token) { alert("로그인이 필요합니다."); return; }
 
@@ -717,7 +606,7 @@ const ChallengeAchievements: React.FC = () => {
       const response = await fetch(`${API_URL}/api/challenges/${challengeId}/join`, {
         method: 'POST',
         headers: getAuthHeaders(),
-        body: JSON.stringify({}), // user_id는 백엔드에서 JWT로 추출
+        body: JSON.stringify({}),
       });
 
       if (!response.ok) {
@@ -725,21 +614,11 @@ const ChallengeAchievements: React.FC = () => {
         throw new Error(errorData.detail || '챌린지 참여 실패');
       }
 
-      // 성공 시 프론트엔드 상태 업데이트
-      setChallenges(prev => prev.map(challenge => {
-        if (challenge.id === challengeId) {
-          return {
-            ...challenge,
-            isParticipating: true,
-            startDate: new Date().toISOString().split('T')[0]
-          };
-        }
-        return challenge;
-      }));
+      setChallenges(prev => prev.map(challenge => 
+        challenge.id === challengeId ? { ...challenge, isParticipating: true } : challenge
+      ));
 
-      // 참여 보너스 크레딧 지급
       await addCredits(10, `챌린지 참여 보너스`);
-      
       alert("챌린지에 참여했습니다! +10C 보너스가 지급되었습니다.");
     } catch (error) {
       console.error('챌린지 참여 오류:', error);
@@ -749,7 +628,7 @@ const ChallengeAchievements: React.FC = () => {
 
   // 챌린지 완료 시 업적 생성 함수
   const createAchievementFromChallenge = (challenge: ChallengeData): AchievementData => {
-    const achievementId = 100 + challenge.id; // 챌린지 기반 업적 ID
+    const achievementId = 100 + challenge.id;
     const today = new Date().toISOString().split('T')[0];
     
     return {
@@ -762,72 +641,106 @@ const ChallengeAchievements: React.FC = () => {
     };
   };
 
-  // 챌린지 진행도 업데이트 함수
-  const updateChallengeProgress = (challengeId: number, newProgress: number) => {
-    setChallenges(prev => prev.map(challenge => {
-      if (challenge.id === challengeId) {
-        const updatedChallenge = {
-          ...challenge,
-          progress: Math.min(newProgress, 100)
-        };
+  // 챌린지 진행도 업데이트 및 완료 처리 함수
+  const updateChallengeProgress = async (challengeId: number, newProgress: number) => {
+    const challenge = challenges.find(c => c.id === challengeId);
+    if (!challenge) return;
 
-        // 100% 달성 시 완료 처리
-        if (newProgress >= 100 && !challenge.isCompleted) {
-          updatedChallenge.isCompleted = true;
-          setCompletedChallenge(updatedChallenge);
-          setShowSuccessModal(true);
-          
-          // 완료 보상 지급
-          const rewardMatch = challenge.reward.match(/(\d+)C/);
-          if (rewardMatch) {
-            const rewardAmount = parseInt(rewardMatch[1]);
-            addCredits(rewardAmount, `${challenge.title} 완료 보상`);
+    const updatedProgress = Math.min(newProgress, 100);
+
+    // 프론트엔드 상태를 먼저 업데이트
+    setChallenges(prev => prev.map(c => 
+      c.id === challengeId ? { ...c, progress: updatedProgress } : c
+    ));
+
+    // 100% 달성 시 완료 처리
+    if (updatedProgress >= 100 && !challenge.isCompleted) {
+      try {
+        // 테스트 챌린지는 백엔드 호출 없이 로컬에서만 처리
+        if (challengeId === 999) {
+          localStorage.setItem('testChallengeCompleted', 'true');
+        } else {
+          // 실제 챌린지는 백엔드에 완료 요청
+          const response = await fetch(`${API_URL}/api/challenges/${challengeId}/complete`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || '챌린지 완료 처리 실패');
           }
+        }
 
-          // 업적 생성 및 추가
-          const newAchievement = createAchievementFromChallenge(updatedChallenge);
-          setAchievements(prev => {
-            // 이미 존재하는 업적인지 확인
-            const existingAchievement = prev.find(ach => ach.id === newAchievement.id);
-            if (existingAchievement) {
-              return prev; // 이미 존재하면 추가하지 않음
-            }
-            
-            // 새 업적 추가
-            const updatedAchievements = [...prev, newAchievement];
-            setNewAchievement(newAchievement);
+        // 공통 완료 로직 (UI 업데이트, 보상 등)
+        setChallenges(prev => prev.map(c => 
+          c.id === challengeId ? { ...c, isCompleted: true } : c
+        ));
+
+        setCompletedChallenge(challenge);
+        setShowSuccessModal(true);
+        
+        const rewardMatch = challenge.reward.match(/(\d+)C/);
+        if (rewardMatch) {
+          const rewardAmount = parseInt(rewardMatch[1]);
+          addCredits(rewardAmount, `${challenge.title} 완료 보상`);
+        }
+
+        const newAch = createAchievementFromChallenge(challenge);
+        setAchievements(prevAch => {
+          if (!prevAch.find(a => a.id === newAch.id)) {
+            setNewAchievement(newAch);
             setShowAchievementModal(true);
-            
-            // 2초 후 업적 탭으로 자동 전환
             setTimeout(() => {
               setActiveTab('achievements');
               setShowAchievementModal(false);
             }, 2000);
-            
-            return updatedAchievements;
-          });
+            return [...prevAch, newAch];
+          }
+          return prevAch;
+        });
 
-          // 3초 후 챌린지에서 완료된 항목 제거
-          setTimeout(() => {
-            setChallenges(prev => prev.filter(c => c.id !== challengeId));
-          }, 3000);
-        }
+        setTimeout(() => {
+          setChallenges(prevCh => prevCh.filter(c => c.id !== challengeId));
+        }, 3000);
 
-        return updatedChallenge;
+      } catch (error) {
+        console.error("챌린지 완료 오류:", error);
+        alert(`챌린지 완료 실패: ${(error as Error).message}`);
+        // 오류 발생 시 롤백
+        setChallenges(prev => prev.map(c => 
+          c.id === challengeId ? { ...c, progress: challenge.progress } : c
+        ));
       }
-      return challenge;
-    }));
+    }
   };
 
-  
+  // 테스트 챌린지 진행도 증가 함수
+  const handleTestChallengeProgress = (challengeId: number) => {
+    const challenge = challenges.find(c => c.id === challengeId);
+    if (challenge) {
+      updateChallengeProgress(challengeId, challenge.progress + 10);
+    }
+  };
 
   useEffect(() => {
+    const dummyChallenges: ChallengeData[] = [
+      {
+        id: 2,
+        title: "자전거 출퇴근 챌린지",
+        description: "한 달간 자전거로 출퇴근하여 5kg CO₂ 절감",
+        progress: 40,
+        reward: "에코 크레딧 150C + 뱃지",
+        isParticipating: true,
+        isCompleted: false,
+        startDate: "2025-01-15",
+        endDate: "2025-02-15"
+      }
+    ];
+
     // 챌린지 데이터 로드
     fetch(`${API_URL}/api/challenges`, { headers: getAuthHeaders() })
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("API 실패");
-      })
+      .then(res => res.ok ? res.json() : Promise.reject("API 실패"))
       .then(async (data) => {
         const mappedChallenges = data.map((c: any) => ({
           id: c.id,
@@ -836,53 +749,82 @@ const ChallengeAchievements: React.FC = () => {
           progress: c.progress,
           reward: c.reward,
           isParticipating: c.is_joined,
-          isCompleted: c.is_completed || false,
+          isCompleted: c.status === 'completed',
           startDate: c.start_at,
           endDate: c.end_at
         }));
 
-        // Fetch real-time progress for participating challenges
         const progressPromises = mappedChallenges.map((challenge: ChallengeData) => {
           if (challenge.isParticipating && !challenge.isCompleted) {
             return fetch(`${API_URL}/api/challenges/${challenge.id}/progress`, { headers: getAuthHeaders() })
               .then(res => res.ok ? res.json() : Promise.resolve({ progress: challenge.progress }))
               .then(progressData => ({ ...challenge, progress: progressData.progress }))
-              .catch(() => challenge); // On error, keep original challenge data
+              .catch(() => challenge);
           }
           return Promise.resolve(challenge);
         });
 
         const challengesWithRealProgress = await Promise.all(progressPromises);
-        setChallenges(challengesWithRealProgress);
+        
+        // Merge dummy and real challenges
+        const finalChallenges = [...challengesWithRealProgress];
+        dummyChallenges.forEach(dummy => {
+          if (!finalChallenges.find(c => c.id === dummy.id)) {
+            finalChallenges.push(dummy);
+          }
+        });
+
+        // Add test challenge only if it's not completed
+        const testChallengeCompleted = localStorage.getItem('testChallengeCompleted') === 'true';
+        if (!testChallengeCompleted) {
+            const testChallenge: ChallengeData = {
+              id: 999,
+              title: "임의로 생성된 test 챌린지입니다",
+              description: "진행도 버튼을 눌러 100%를 만들어 완료 로직을 테스트하세요.",
+              progress: 0,
+              reward: "테스트 보상 50C",
+              isParticipating: true,
+              isCompleted: false,
+              startDate: new Date().toISOString().split('T')[0],
+              endDate: "N/A"
+            };
+            finalChallenges.unshift(testChallenge);
+        }
+
+        setChallenges(finalChallenges);
       })
       .catch((error) => {
         console.error("챌린지 데이터 로드 실패:", error);
-        setChallenges(dummyChallenges);
+        // API 실패 시 더미 데이터와 테스트 챌린지 표시
+        const testChallengeCompleted = localStorage.getItem('testChallengeCompleted') === 'true';
+        let fallbackChallenges = dummyChallenges;
+        if (!testChallengeCompleted) {
+            const testChallenge: ChallengeData = {
+              id: 999,
+              title: "임의로 생성된 test 챌린지입니다",
+              description: "진행도 버튼을 눌러 100%를 만들어 완료 로직을 테스트하세요.",
+              progress: 0,
+              reward: "테스트 보상 50C",
+              isParticipating: true,
+              isCompleted: false,
+              startDate: new Date().toISOString().split('T')[0],
+              endDate: "N/A"
+            };
+            fallbackChallenges = [testChallenge, ...fallbackChallenges];
+        }
+        setChallenges(fallbackChallenges);
       });
 
     // 업적 데이터 로드
     fetch(`${API_URL}/api/achievements`, { headers: getAuthHeaders() })
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("API 실패");
-      })
-      .then((data) => {
-        setAchievements(data);
-      })
-      .catch(() => {
-        setAchievements(dummyAchievements);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      .then(res => res.ok ? res.json() : Promise.reject("API 실패"))
+      .then(data => setAchievements(data))
+      .catch(() => setAchievements([]))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
-    return (
-      <div style={{ textAlign: 'center', padding: '50px', fontSize: '1.2rem', color: '#666' }}>
-        ⏳ 로딩 중...
-      </div>
-    );
+    return <div style={{ textAlign: 'center', padding: '50px', fontSize: '1.2rem', color: '#666' }}>⏳ 로딩 중...</div>;
   }
 
   const selectedAchievementData = achievements.find(a => a.id === selectedAchievement);
@@ -899,125 +841,113 @@ const ChallengeAchievements: React.FC = () => {
 
         <div className="content-container">
           <div className="tab-container">
-          <button
-            className={`tab-button ${activeTab === 'challenges' ? 'active' : ''}`}
-            onClick={() => setActiveTab('challenges')}
-          >
-            🔥 챌린지
-          </button>
-          <button
-            className={`tab-button ${activeTab === 'achievements' ? 'active' : ''}`}
-            onClick={() => setActiveTab('achievements')}
-          >
-            🏆 업적
-          </button>
-        </div>
-
-        {/* 챌린지 탭 */}
-        <div className={`tab-content ${activeTab === 'challenges' ? 'active' : ''}`}>
-          <div className="challenge-grid">
-            {challenges.map((challenge) => (
-              <div key={challenge.id} className={`challenge-card ${challenge.isParticipating ? 'participating' : ''} ${challenge.isCompleted ? 'completed' : ''}`}>
-                <h3>{challenge.title}</h3>
-                <p className="desc">{challenge.description}</p>
-
-                {/* 상태 표시 */}
-                <div className="challenge-status">
-                  {challenge.isCompleted ? (
-                    <span className="status-badge completed">✅ 완료</span>
-                  ) : challenge.isParticipating ? (
-                    <span className="status-badge participating">🔥 참여 중</span>
-                  ) : (
-                    <span className="status-badge available">📅 참여 가능</span>
-                  )}
-                </div>
-
-                <div className="progress-section">
-                  <div className="progress-bar">
-                    <div
-                      className="progress-fill"
-                      style={{ width: `${Math.min(challenge.progress, 100)}%` }}
-                    />
-                  </div>
-                  <p className="progress-text">
-                    {challenge.progress.toFixed(1)}% 달성
-                    {challenge.isParticipating && !challenge.isCompleted && (
-                      <span className="progress-indicator"> (진행 중...)</span>
-                    )}
-                  </p>
-                </div>
-
-                <div className="reward">🎁 {challenge.reward}</div>
-                
-                {/* 날짜 정보 */}
-                {challenge.startDate && (
-                  <div className="challenge-dates">
-                    <small>시작: {challenge.startDate}</small>
-                    {challenge.endDate && <small>종료: {challenge.endDate}</small>}
-                  </div>
-                )}
-
-                <div className="challenge-actions">
-                  {challenge.progress < 100 && !challenge.isCompleted && (
-                    <button 
-                      className={`join-btn ${challenge.isParticipating ? 'participating' : ''}`}
-                      onClick={() => handleJoinChallenge(challenge.id)}
-                      disabled={challenge.isParticipating}
-                    >
-                      {challenge.isParticipating ? '참여 중...' : '참여하기'}
-                    </button>
-                  )}
-                  {challenge.progress >= 100 && !challenge.isCompleted && (
-                    <button 
-                      className="join-btn completed" 
-                      onClick={() => updateChallengeProgress(challenge.id, challenge.progress)}
-                    >
-                      완료!
-                    </button>
-                  )}
-                  {challenge.isCompleted && (
-                     <button className="join-btn completed" disabled>완료됨</button>
-                  )}
-                </div>
-              </div>
-            ))}
+            <button
+              className={`tab-button ${activeTab === 'challenges' ? 'active' : ''}`}
+              onClick={() => setActiveTab('challenges')}
+            >
+              🔥 챌린지
+            </button>
+            <button
+              className={`tab-button ${activeTab === 'achievements' ? 'active' : ''}`}
+              onClick={() => setActiveTab('achievements')}
+            >
+              🏆 업적
+            </button>
           </div>
-        </div>
 
-        {/* 업적 탭 */}
-        <div className={`tab-content ${activeTab === 'achievements' ? 'active' : ''}`}>
-          <div className="achievement-badges">
-            {achievements
-              .filter(achievement => achievement.unlocked && achievement.progress === 100)
-              .map((achievement) => (
-                <div
-                  key={achievement.id}
-                  className="achievement-badge"
-                  onClick={() => setSelectedAchievement(achievement.id)}
-                >
-                  <div className="badge-icon">🏆</div>
-                  <div className="badge-content">
-                    <h4>{achievement.name}</h4>
-                    <p className="badge-desc">{achievement.desc}</p>
-                    {achievement.date && (
-                      <span className="badge-date">{achievement.date}</span>
+          <div className={`tab-content ${activeTab === 'challenges' ? 'active' : ''}`}>
+            <div className="challenge-grid">
+              {challenges.map((challenge) => (
+                <div key={challenge.id} className={`challenge-card ${challenge.isParticipating ? 'participating' : ''} ${challenge.isCompleted ? 'completed' : ''}`}>
+                  <h3>{challenge.title}</h3>
+                  <p className="desc">{challenge.description}</p>
+
+                  <div className="challenge-status">
+                    {challenge.isCompleted ? (
+                      <span className="status-badge completed">✅ 완료</span>
+                    ) : challenge.isParticipating ? (
+                      <span className="status-badge participating">🔥 참여 중</span>
+                    ) : (
+                      <span className="status-badge available">📅 참여 가능</span>
                     )}
                   </div>
-                  <div className="badge-status">✅</div>
+
+                  <div className="progress-section">
+                    <div className="progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{ width: `${Math.min(challenge.progress, 100)}%` }}
+                      />
+                    </div>
+                    <p className="progress-text">{challenge.progress.toFixed(1)}% 달성</p>
+                  </div>
+
+                  <div className="reward">🎁 {challenge.reward}</div>
+
+                  <div className="challenge-actions">
+                    {/* 테스트 챌린지용 버튼 */}
+                    {challenge.id === 999 && !challenge.isCompleted && (
+                      <button 
+                        className="progress-btn"
+                        onClick={() => handleTestChallengeProgress(challenge.id)}
+                      >
+                        +10 진행도
+                      </button>
+                    )}
+
+                    {challenge.id !== 999 && !challenge.isCompleted && (
+                      <button 
+                        className={`join-btn ${challenge.isParticipating ? 'participating' : ''}`}
+                        onClick={() => handleJoinChallenge(challenge.id)}
+                        disabled={challenge.isParticipating}
+                      >
+                        {challenge.isParticipating ? '참여 중...' : '참여하기'}
+                      </button>
+                    )}
+
+                    {challenge.isCompleted && (
+                       <button className="join-btn completed" disabled>완료됨</button>
+                    )}
+                  </div>
                 </div>
               ))}
-            
-            {achievements.filter(achievement => achievement.unlocked && achievement.progress === 100).length === 0 && (
-              <div className="no-achievements">
-                <div className="no-achievements-icon">🏆</div>
-                <h3>아직 획득한 업적이 없습니다</h3>
-                <p>챌린지를 완료하여 첫 번째 업적을 획득해보세요!</p>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
 
-        {/* 챌린지 완료 성공 모달 */}
+          {/* 업적 탭 (이하 동일) */}
+          <div className={`tab-content ${activeTab === 'achievements' ? 'active' : ''}`}>
+            <div className="achievement-badges">
+              {achievements
+                .filter(achievement => achievement.unlocked && achievement.progress === 100)
+                .map((achievement) => (
+                  <div
+                    key={achievement.id}
+                    className="achievement-badge"
+                    onClick={() => setSelectedAchievement(achievement.id)}
+                  >
+                    <div className="badge-icon">🏆</div>
+                    <div className="badge-content">
+                      <h4>{achievement.name}</h4>
+                      <p className="badge-desc">{achievement.desc}</p>
+                      {achievement.date && (
+                        <span className="badge-date">{achievement.date}</span>
+                      )}
+                    </div>
+                    <div className="badge-status">✅</div>
+                  </div>
+                ))}
+              
+              {achievements.filter(achievement => achievement.unlocked && achievement.progress === 100).length === 0 && (
+                <div className="no-achievements">
+                  <div className="no-achievements-icon">🏆</div>
+                  <h3>아직 획득한 업적이 없습니다</h3>
+                  <p>챌린지를 완료하여 첫 번째 업적을 획득해보세요!</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* 모달들 (이하 동일) */}
         {showSuccessModal && completedChallenge && (
           <div className="modal-overlay" onClick={() => setShowSuccessModal(false)}>
             <div className="modal success-modal" onClick={(e) => e.stopPropagation()}>
@@ -1035,8 +965,6 @@ const ChallengeAchievements: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* 새 업적 획득 모달 */}
         {showAchievementModal && newAchievement && (
           <div className="modal-overlay" onClick={() => setShowAchievementModal(false)}>
             <div className="modal achievement-modal" onClick={(e) => e.stopPropagation()}>
@@ -1058,8 +986,6 @@ const ChallengeAchievements: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* 업적 상세 모달 */}
         {selectedAchievementData && (
           <div className="modal-overlay" onClick={() => setSelectedAchievement(null)}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>

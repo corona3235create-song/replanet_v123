@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from backend import models # Import models
 from backend.database import get_db
 from backend.dependencies import get_current_user
 from backend.schemas import GroupCreateWithUsernames, GroupUpdate, Group as GroupSchema
@@ -12,7 +13,7 @@ router = APIRouter(prefix="/groups", tags=["groups"])
 @router.post("/", response_model=GroupSchema)
 def create_group(
     group_data: GroupCreateWithUsernames,
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Create a new group with specified members."""
@@ -20,7 +21,7 @@ def create_group(
 
 @router.get("/", response_model=List[GroupSchema])
 def get_user_groups(
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get all groups for the current user."""
@@ -37,7 +38,7 @@ def get_global_group_ranking(
 @router.get("/{group_id}", response_model=GroupSchema)
 def get_group(
     group_id: int,
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get a single group by its ID."""
@@ -49,7 +50,7 @@ def get_group(
 @router.delete("/{group_id}", response_model=dict)
 def delete_group(
     group_id: int,
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Delete a group (leader only)."""
@@ -66,7 +67,7 @@ def delete_group(
 @router.post("/{group_id}/leave", response_model=dict)
 def leave_group(
     group_id: int,
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Leave a group."""
@@ -83,7 +84,7 @@ def leave_group(
 @router.get("/{group_id}/members", response_model=List[dict])
 def get_group_members(
     group_id: int,
-    current_user: dict = Depends(get_current_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get all members of a group."""

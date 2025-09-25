@@ -1,4 +1,4 @@
-# api/group_challenges.py
+# backend/routes/group_challenges.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -7,9 +7,10 @@ from backend.dependencies import get_current_user
 from backend.schemas import GroupChallengeCreate, GroupChallengeResponse
 from backend.services.group_challenge_service import GroupChallengeService
 
-router = APIRouter(prefix="/groups", tags=["group-challenges"])
+# prefix에 group_id와 challenges를 이미 포함
+router = APIRouter(prefix="/groups/{group_id}/challenges", tags=["group-challenges"])
 
-@router.post("/{group_id}/challenges", response_model=GroupChallengeResponse)
+@router.post("/", response_model=GroupChallengeResponse)
 def create_group_challenge(
     group_id: int,
     challenge_data: GroupChallengeCreate,
@@ -27,7 +28,6 @@ def create_group_challenge(
             detail="Not authorized to create challenge for this group"
         )
     
-    # Get challenge details with progress
     challenge_details = GroupChallengeService.get_challenge_details(
         db, challenge.challenge_id, current_user.user_id
     )
@@ -48,24 +48,21 @@ def create_group_challenge(
         completion_percentage=challenge_details["completion_percentage"]
     )
 
-@router.get("/{group_id}/challenges", response_model=List[GroupChallengeResponse])
+@router.get("/", response_model=List[GroupChallengeResponse])
 def get_group_challenges(
     group_id: int,
     current_user: dict = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Get all challenges for a group"""
-    # Update challenge statuses first
     GroupChallengeService.update_challenge_statuses(db)
     
     challenges = GroupChallengeService.get_group_challenges(db, group_id, current_user.user_id)
-    
     response_list = []
     for challenge in challenges:
         challenge_details = GroupChallengeService.get_challenge_details(
             db, challenge.challenge_id, current_user.user_id
         )
-        
         response_list.append(GroupChallengeResponse(
             challenge_id=challenge.challenge_id,
             group_id=challenge.group_id,
@@ -81,10 +78,9 @@ def get_group_challenges(
             progress=challenge_details["progress"],
             completion_percentage=challenge_details["completion_percentage"]
         ))
-    
     return response_list
 
-@router.post("/{group_id}/challenges/{challenge_id}/join", response_model=dict)
+@router.post("/{challenge_id}/join", response_model=dict)
 def join_group_challenge(
     group_id: int,
     challenge_id: int,
@@ -100,7 +96,7 @@ def join_group_challenge(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/{group_id}/challenges/participations/{user_id}", response_model=List[dict])
+@router.get("/participations/{user_id}", response_model=List[dict])
 def get_user_challenge_participations(
     group_id: int,
     user_id: int,
@@ -108,7 +104,6 @@ def get_user_challenge_participations(
     db: Session = Depends(get_db)
 ):
     """Get challenges a user is participating in for a given group."""
-    # Ensure the requesting user is the same as the user_id in the path or is an admin
     if current_user.user_id != user_id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to view these participations.")
 
@@ -118,7 +113,7 @@ def get_user_challenge_participations(
         for p in participations
     ]
 
-@router.get("/{group_id}/challenges/{challenge_id}", response_model=GroupChallengeResponse)
+@router.get("/{challenge_id}", response_model=GroupChallengeResponse)
 def get_challenge_detail(
     group_id: int,
     challenge_id: int,
@@ -134,7 +129,6 @@ def get_challenge_detail(
         raise HTTPException(status_code=404, detail="Challenge not found")
     
     challenge = challenge_details["challenge"]
-    
     if challenge.group_id != group_id:
         raise HTTPException(status_code=400, detail="Challenge does not belong to this group")
     
@@ -154,7 +148,7 @@ def get_challenge_detail(
         completion_percentage=challenge_details["completion_percentage"]
     )
 
-@router.get("/{group_id}/challenges/{challenge_id}/members")
+@router.get("/{challenge_id}/members")
 def get_challenge_member_progress(
     group_id: int,
     challenge_id: int,
@@ -162,7 +156,6 @@ def get_challenge_member_progress(
     db: Session = Depends(get_db)
 ):
     """Get individual member progress for a challenge"""
-    # Verify access
     challenge_details = GroupChallengeService.get_challenge_details(
         db, challenge_id, current_user.user_id
     )
@@ -170,7 +163,6 @@ def get_challenge_member_progress(
     if not challenge_details:
         raise HTTPException(status_code=404, detail="Challenge not found")
     
-    # Get member progress
     from sqlalchemy import text
     query = text("""
         SELECT 
@@ -206,9 +198,7 @@ def get_challenge_member_progress(
         "member_progress": member_progress
     }
 
-# Background task or scheduled job to update challenge progress
-# This should be called whenever a user's CO2 saving data is updated
-
+# Background task or scheduled job
 def update_user_challenge_progress(db: Session, user_id: int, co2_saved: float):
     """Call this function when user's daily CO2 saving is updated"""
     GroupChallengeService.update_challenge_progress(db, user_id, co2_saved)

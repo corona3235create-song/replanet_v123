@@ -382,3 +382,27 @@ class GardenWateringLog(Base):
     
     # Relationships
     user = relationship("User", backref="watering_logs")
+
+# ---------------------------
+# Shop & Garden Inventory
+# ---------------------------
+class UserInventory(Base):
+    __tablename__ = "user_inventory"
+    
+    inventory_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey("users.user_id"), nullable=False)
+    item_id = Column(String(50), nullable=False) # Corresponds to ID in shop_data
+    quantity = Column(Integer, nullable=False, default=1)
+    
+    user = relationship("User", backref="inventory_items")
+
+class PlacedObject(Base):
+    __tablename__ = "placed_objects"
+    
+    placed_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger, ForeignKey("users.user_id"), nullable=False)
+    item_id = Column(String(50), nullable=False)
+    x = Column(Numeric(10, 4), nullable=False)
+    y = Column(Numeric(10, 4), nullable=False)
+    
+    user = relationship("User", backref="placed_objects")

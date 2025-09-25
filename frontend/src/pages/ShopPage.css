@@ -1,0 +1,26 @@
+.shop-page {
+  padding: 2rem;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.total-credits-display {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f0fdf4; /* light green */
+  border: 1px solid #bbf7d0; /* green border */
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  color: #166534; /* dark green text */
+}
+
+.total-credits-display span {
+  font-size: 1.5rem;
+}

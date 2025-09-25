@@ -4,6 +4,7 @@ from .models import GardenLevel
 def seed_garden_levels(db: Session):
     # Check if levels already exist
     if db.query(GardenLevel).count() > 0:
+        print("Garden levels already exist.")
         return
 
     levels = [
@@ -25,3 +26,4 @@ def seed_garden_levels(db: Session):
         db.add(level)
     
     db.commit()
+    print("Garden levels seeded successfully!")

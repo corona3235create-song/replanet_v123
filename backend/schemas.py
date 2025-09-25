@@ -432,3 +432,32 @@ class CarbonFootprintRequest(BaseModel):
     user_id: int
     start_date: Optional[datetime] = None
     end_date: Optional[datetime] = None
+
+# Shop & Garden
+class GardenObject(BaseModel):
+    id: str
+    name: str
+    description: str
+    price: int
+    icon: str
+    image: str
+
+class InventoryItem(BaseModel):
+    itemId: str
+    quantity: int
+    object: GardenObject
+
+class PlacedObject(BaseModel):
+    placed_id: int
+    item_id: str
+    x: float
+    y: float
+    object: GardenObject
+
+    class Config:
+        from_attributes = True
+
+class UpdatePositionRequest(BaseModel):
+    placed_id: int
+    x: float
+    y: float

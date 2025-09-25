@@ -34,6 +34,8 @@ import GroupList from "./pages/Groups/GroupList";
 import GroupDashboard from "./pages/Groups/GroupDashboard";
 import CreateGroupChallenge from "./pages/Groups/CreateGroupChallenge";
 import GroupRankingPage from "./pages/Groups/GroupRankingPage"; // Added this line
+import ShopPage from "./pages/ShopPage";
+import GardenEditorPage from "./pages/GardenEditorPage";
 import { GroupProvider } from "./contexts/GroupContext";
 
 
@@ -367,6 +369,8 @@ function AppContent() {
           <Route path="/groups/ranking" element={<GroupRankingPage />} />
           <Route path="/groups/:groupId/create-challenge" element={<CreateGroupChallenge />} />
           <Route path="/groups/:groupId" element={<GroupDashboard />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/garden-editor" element={<GardenEditorPage />} />
         </Routes>
       </main>
 

@@ -303,7 +303,8 @@ async def get_garden_status(current_user: User = Depends(get_current_user), db: 
         UserGarden.user_id == user_id
     ).first()
     
-    if not garden:
+    # garden.level이 None인 경우를 대비한 방어 코드 추가
+    if not garden or not garden.level:
         # 기본 정원 상태 반환
         return GardenStatus(
             user_id=user_id,

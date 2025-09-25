@@ -4,11 +4,18 @@ from fastapi.staticfiles import StaticFiles
 import os
 from dotenv import load_dotenv
 
+
 # .env 파일 로드
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 from .database import init_db, SessionLocal
-from .routes import dashboard, credits, challenges, auth, achievements, users, admin, mobility, ai_challenge_router, groups, group_challenges # mobility 라우터 추가, AI 챌린지 라우터 추가
+from .routes import (
+  dashboard, credits, challenges, auth, 
+  achievements, users, mobility, ai_challenge_router, admin, shop, garden)
+
+from .routes import groups
+from .routes import group_challenges
+
 from .seed_admin_user import seed_admin_user
 from .bedrock_logic import router as chat_router
 
@@ -30,7 +37,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # 정적 파일 서빙 (이미지 등)
 if os.path.exists("frontend/public"):
     app.mount("/images", StaticFiles(directory="frontend/public"), name="images")
@@ -49,6 +55,8 @@ app.include_router(mobility.router) # mobility 라우터 추가
 app.include_router(ai_challenge_router.router) # AI 챌린지 라우터 추가
 app.include_router(groups.router)
 app.include_router(group_challenges.router)
+app.include_router(shop.router)
+app.include_router(garden.router)
 
 @app.on_event("startup")
 async def startup_event():
@@ -80,3 +88,4 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    # uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -137,12 +137,39 @@ const DashboardPage: React.FC = () => {
 
   // ✅ 차트 데이터 다운로드 함수
   const handleDownloadChartData = (chartData: DailySaving[]) => {
-    const csvContent = "data:text/csv;charset=utf-8,"
+    const header = "날짜,절감량(g)";
+    const csvContent = "data:text/csv;charset=utf-8,\n"
+      + header + "\n"
       + chartData.map(e => `${e.date},${e.saved_g}`).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "carbon_reduction_data.csv");
+    link.setAttribute("download", "7일_탄소_절감량_데이터.csv"); // Updated filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ✅ 대시보드 요약 데이터 다운로드 함수
+  const handleDownloadSummaryData = () => {
+    if (!data) return;
+
+    const header = "항목,값";
+    const summaryData = [
+      `오늘 절약한 탄소(g),${data.co2_saved_today}`,
+      `오늘 획득 크레딧,${data.eco_credits_earned}`,
+      `누적 절약량(kg),${data.total_saved}`,
+      `누적 크레딧,${data.total_points}`,
+      `정원 레벨,${data.garden_level}`,
+    ].join("\n");
+
+    const csvContent = "data:text/csv;charset=utf-8,\n"
+      + header + "\n"
+      + summaryData;
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "대시보드_요약_데이터.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

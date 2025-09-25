@@ -64,7 +64,7 @@ def join_challenge(
     return {"message": f"Successfully joined challenge '{challenge.title}'"}
 
 
-@router.get("/", response_model=List[schemas.FrontendChallenge])
+@router.get("", response_model=List[schemas.FrontendChallenge])
 def get_challenges(current_user: models.User = Depends(get_current_user), db: Session = Depends(database.get_db)):
     """
     사용자의 챌린지 목록과 참여 상태를 반환합니다.
@@ -86,8 +86,6 @@ def get_challenges(current_user: models.User = Depends(get_current_user), db: Se
         if is_joined:
             # 참여한 챌린지의 경우 실제 진행률 계산
             progress = crud.calculate_challenge_progress(db, user_id, c)
-            # 진행률에 따라 챌린지 상태 업데이트
-            c = crud.update_challenge_status_if_completed(db, c, progress)
 
         result.append({
             "id": c.challenge_id,
@@ -98,10 +96,57 @@ def get_challenges(current_user: models.User = Depends(get_current_user), db: Se
             "is_joined": is_joined,
             "status": c.status, # status 필드 추가
             "goal_type": c.goal_type, # FrontendChallenge 스키마에 추가
-            "goal_target_value": c.goal_target_value # FrontendChallenge 스키마에 추가
+            "goal_target_value": float(c.goal_target_value) # FrontendChallenge 스키마에 추가
         })
 
     return result
+
+@router.post("/{challenge_id}/complete", response_model=schemas.FrontendChallenge)
+def complete_challenge(
+    challenge_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(database.get_db)
+):
+    """
+    Manually mark a challenge as completed.
+    This should be called by the frontend when progress reaches 100%.
+    """
+    user_id = current_user.user_id
+    
+    # Check if user is a member of the challenge
+    member = db.query(models.ChallengeMember).filter(
+        models.ChallengeMember.challenge_id == challenge_id,
+        models.ChallengeMember.user_id == user_id
+    ).first()
+    if not member:
+        raise HTTPException(status_code=403, detail="You are not a member of this challenge.")
+
+    challenge = db.query(models.Challenge).filter(models.Challenge.challenge_id == challenge_id).first()
+    if not challenge:
+        raise HTTPException(status_code=404, detail="Challenge not found.")
+
+    # Update status to COMPLETED
+    if challenge.status == models.ChallengeStatus.ACTIVE:
+        challenge.status = models.ChallengeStatus.COMPLETED
+        db.add(challenge)
+        db.commit()
+        db.refresh(challenge)
+
+    # Recalculate final progress
+    progress = crud.calculate_challenge_progress(db, user_id, challenge)
+
+    # Return the updated challenge info to the frontend
+    return {
+        "id": challenge.challenge_id,
+        "title": challenge.title,
+        "description": challenge.description,
+        "progress": float(progress),
+        "reward": challenge.reward,
+        "is_joined": True,
+        "status": challenge.status,
+        "goal_type": challenge.goal_type,
+        "goal_target_value": float(challenge.goal_target_value)
+    }
 
 
 @router.get("/{challenge_id}/progress")

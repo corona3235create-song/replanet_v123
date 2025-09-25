@@ -1,17 +1,12 @@
-from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-
-from .database import SessionLocal, engine
-from . import crud, schemas, models
-
-# Ensure tables are created
-models.Base.metadata.create_all(bind=engine)
+from datetime import datetime, timedelta
+from . import crud, models, schemas
+from .database import SessionLocal
 
 def seed_challenges(db: Session):
-    # Delete all existing challenges to ensure a clean slate
+    # Optional: Clean up existing challenges before seeding
+    db.query(models.ChallengeMember).delete()
     db.query(models.Challenge).delete()
-    db.query(models.ChallengeMember).delete() # Also delete challenge members
-    db.commit()
     print("Deleted all existing challenges and challenge members.")
 
     now = datetime.utcnow()
@@ -77,6 +72,7 @@ def seed_challenges(db: Session):
             print(f"Created challenge: {challenge_data.title}")
         else:
             print(f"Challenge already exists: {challenge_data.title}")
+    db.commit()
 
 if __name__ == "__main__":
     db = SessionLocal()
